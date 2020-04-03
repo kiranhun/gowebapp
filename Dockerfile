@@ -4,6 +4,7 @@
 # Loading Base Golang Image
 FROM golang:1.14.1 as builder
 # Set as work directory
+WORKDIR /go-webapp
 ENV SRC_DIR=/go/src/github.com/gowebapp
 ADD . $SRC_DIR
 RUN cd $SRC_DIR; go get github.com/gorilla/mux;CGO_ENABLED=0 go build -o goapp
