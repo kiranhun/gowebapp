@@ -4,17 +4,15 @@
 # Loading Base Golang Image
 FROM golang:1.14.1 as builder
 # Set as work directory
-WORKDIR /gowebapp/
-COPY . .
+
 RUN cd main && go get -d -v
 RUN cd main && CGO_ENABLED=0 GOOS=linux go build -a 
 
 
 # Second Stage - Run
 FROM alpine as final
-WORKDIR /
 RUN apk add --update tzdata
-COPY --from=builder /gowebapp/main/main .
+COPY --from=builder main/main .
 CMD ["./main"]
 
 
