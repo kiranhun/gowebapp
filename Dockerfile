@@ -4,16 +4,17 @@
 # Loading Base Golang Image
 FROM golang:1.14.1 as builder
 # Set as work directory
-
-RUN cd main && go get -d -v
-RUN cd main && CGO_ENABLED=0 GOOS=linux go build -a 
+ENV SRC_DIR=/go/src/github.com/gowebapp
+ADD . $SRC_DIR
+RUN cd $SRC_DIR; go get github.com/gorilla/mux;CGO_ENABLED=0 go build -o goapp
 
 
 # Second Stage - Run
 FROM alpine as final
 RUN apk add --update tzdata
-COPY --from=builder main/main .
-CMD ["./main"]
+COPY --from=builder /go/src/github.com/gowebapp/goapp /go-webapp/.
+RUN ls -la /go-webapp
+ENTRYPOINT ["/go-webapp/goapp"]
 
 
 # FROM golang:1.14.1 AS builder
