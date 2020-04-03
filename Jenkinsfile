@@ -9,7 +9,7 @@ pipeline {
         stage('Build docker image'){
             steps{        
                 sh """
-                    env && docker build -t ${GO_IMAGE_NAME}:${commit_id} .
+                    env && docker build -t ${GO_IMAGE_NAME}:${GIT_COMMIT} .
                 """
             }
         }
@@ -18,7 +18,7 @@ pipeline {
             steps{
                 sh """
                 docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-                docker push ${BACKEND_IMAGE_NAME}:${commit_id}
+                docker push ${GO_IMAGE_NAME}:${GIT_COMMIT}
                 """
             }
         }
