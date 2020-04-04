@@ -42,7 +42,7 @@ pipeline {
                             pwd
                             kubectl create secret generic myregistrykey --from-file=.dockerconfigjson=${dockerconfigpath}/.docker/config.json --type=kubernetes.io/dockerconfigjson -n go
                             sudo su
-                            kubectl apply -f deployment -n go
+                            kubectl apply -f deployment.yaml -n go
                             kubectl apply -f load.yaml -n go
                         """
                     }
