@@ -1,3 +1,4 @@
+---   
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,15 +16,17 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
+      app: gowebapp
       tier: gowebapp
   template:
     metadata:
-      labels:
-        tier: gowebapps
+        labels: 
+          app: gowebapp
+          tier: gowebapp
     spec:
       containers:
       - name: gowebapp
-        image: go image 1
+        image: kiranhun/webapp-go:94f2a98dc8b40ce6648841dd1ce1c2e47c43bd90
         resources:
           requests:
             cpu: 100m
