@@ -26,7 +26,7 @@ pipeline {
         stage('update deployment file with latest image name'){
             steps{
                 script{
-                    sh "q write -i deployment.yaml 'spec.template.spec.containers[0].image' ${DOCKER_USER}/webapp-go:${GIT_COMMIT}"
+                    sh "yq write -i deployment.yaml 'spec.template.spec.containers[0].image' ${DOCKER_USER}/webapp-go:${GIT_COMMIT}"
                 } 
             }
         }
