@@ -41,9 +41,12 @@ pipeline {
                             kubectl create namespace go > /dev/null 2>&1 || true
                             pwd
                             kubectl create secret generic myregistrykey --from-file=.dockerconfigjson=${dockerconfigpath}/.docker/config.json --type=kubernetes.io/dockerconfigjson -n go > /dev/null 2>&1 || true
+                            kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml
+                            kubectl apply -f nginx-ingress.yaml
                             sudo su
                             kubectl apply -f deployment.yaml -n go
-                            kubectl apply -f load.yaml -n go
+                            kubectl apply -f service.yaml
+                            kubectl apply -f ingress.yaml -n go
                         """
                     }
                 }
