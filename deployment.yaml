@@ -1,0 +1,49 @@
+---   
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gowebapp
+  labels:
+    app: gowebapp
+    tier: gowebapp
+spec:
+  replicas: 2
+  minReadySeconds: 15
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: gowebapp
+      tier: gowebapp
+  template:
+    metadata:
+        labels: 
+          app: gowebapp
+          tier: gowebapp
+    spec:
+      containers:
+      - name: gowebapp
+        image: kiranhun/webapp-go:94f2a98dc8b40ce6648841dd1ce1c2e47c43bd90
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 3000
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 100
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 100
+      imagePullSecrets:
+      - name: myregistrykey
