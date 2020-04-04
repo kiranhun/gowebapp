@@ -37,4 +37,3 @@ CMD ["./main"]
 #ADD . $SRC_DIR
 # Build it:
 #RUN cd $SRC_DIR; go get github.com/gorilla/mux;CGO_ENABLED=0 go build -o goapp
-
